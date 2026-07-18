@@ -13,30 +13,33 @@
         }
 
         :root {
-            --medical-blue: #0284c7;
-            --medical-cyan: #06b6d4;
-            --clinical-dark: #0f172a;
-            --clinical-gray: #334155;
-            --clinical-light: #f8fafc;
-            --border-color: #e2e8f0;
-            --card-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --medical-blue: #0ea5e9;
+            --medical-cyan: #22d3ee;
+            --clinical-dark: #0b0f19;
+            --clinical-card: rgba(17, 24, 39, 0.7);
+            --clinical-gray: #94a3b8;
+            --clinical-light: #030712;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(15, 23, 42, 0.6);
+            --card-shadow: 0 20px 40px -15px rgba(0, 229, 255, 0.15);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
             background-color: var(--clinical-light);
-            color: var(--clinical-dark);
+            color: #f3f4f6;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         a { text-decoration: none; color: inherit; }
         button { cursor: pointer; border: none; background: none; }
 
         header {
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(3, 7, 18, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
@@ -46,27 +49,28 @@
         .nav-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 16px 24px;
+            padding: 20px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--clinical-dark);
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffffff;
             display: flex;
             align-items: center;
             gap: 12px;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
         }
 
         .logo span {
             background: linear-gradient(135deg, var(--medical-blue), var(--medical-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-size: 26px;
+            font-size: 28px;
+            animation: pulseGlow 2s infinite alternate;
         }
 
         .nav-right {
@@ -77,141 +81,147 @@
 
         .nav-links {
             display: flex;
-            gap: 24px;
+            gap: 32px;
         }
 
         .nav-links a {
-            font-weight: 500;
+            font-weight: 600;
             color: var(--clinical-gray);
             transition: var(--transition);
-            font-size: 14.5px;
+            font-size: 14px;
+            letter-spacing: 0.3px;
         }
 
-        .nav-links a:hover { color: var(--medical-blue); }
+        .nav-links a:hover { color: #ffffff; text-shadow: 0 0 10px rgba(14, 165, 233, 0.6); }
 
         .lang-dropdown { position: relative; display: inline-block; }
         .gear-btn {
             font-size: 20px;
             color: var(--clinical-gray);
             transition: var(--transition);
-            padding: 6px;
+            padding: 8px;
             display: flex;
             border-radius: 50%;
-            background: #f1f5f9;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
         }
         .lang-dropdown:hover .gear-btn {
-            color: var(--medical-blue);
+            color: #ffffff;
             transform: rotate(60deg);
-            background: #e0f2fe;
+            background: rgba(14, 165, 233, 0.15);
+            border-color: var(--medical-blue);
         }
         .dropdown-content {
             display: none;
             position: absolute;
             right: 0;
-            background-color: #ffffff;
-            min-width: 150px;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-            border-radius: 12px;
+            background-color: rgba(11, 15, 25, 0.95);
+            backdrop-filter: blur(16px);
+            min-width: 165px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            border-radius: 14px;
             overflow: hidden;
-            margin-top: 10px;
+            margin-top: 12px;
             border: 1px solid var(--border-color);
         }
         .dropdown-content button {
             width: 100%;
             text-align: left;
-            padding: 12px 20px;
+            padding: 14px 20px;
             font-size: 14px;
-            font-weight: 500;
-            color: var(--clinical-dark);
+            font-weight: 600;
+            color: var(--clinical-gray);
             transition: var(--transition);
         }
         .dropdown-content button:hover {
-            background-color: #f0f9ff;
-            color: var(--medical-blue);
+            background-color: rgba(14, 165, 233, 0.12);
+            color: #ffffff;
         }
         .lang-dropdown:hover .dropdown-content { display: block; }
 
         .hero {
-            background: radial-gradient(100% 100% at 50% 0%, rgba(224, 242, 254, 0.6) 0%, rgba(248, 250, 252, 0) 100%);
-            padding: 100px 24px;
+            background: radial-gradient(120% 100% at 50% 0%, rgba(14, 165, 233, 0.15) 0%, rgba(3, 7, 18, 0) 80%);
+            padding: 140px 24px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
         }
-        .hero-content { max-width: 750px; margin: 0 auto; }
-        .hero h1 { font-size: 48px; margin-bottom: 24px; font-weight: 800; color: var(--clinical-dark); letter-spacing: -1px; line-height: 1.15; }
-        .hero p { font-size: 18px; margin-bottom: 36px; color: var(--clinical-gray); font-weight: 400; }
+        .hero-content { max-width: 850px; margin: 0 auto; }
+        .hero h1 { font-size: 58px; margin-bottom: 28px; font-weight: 900; color: #ffffff; letter-spacing: -2px; line-height: 1.1; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .hero p { font-size: 20px; margin-bottom: 44px; color: var(--clinical-gray); font-weight: 400; max-width: 650px; margin-left: auto; margin-right: auto; }
         
         .btn {
             background: linear-gradient(135deg, var(--medical-blue), var(--medical-cyan));
-            color: white;
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 600;
+            color: #030712;
+            padding: 16px 40px;
+            border-radius: 100px;
+            font-weight: 700;
             font-size: 15px;
-            box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.3);
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.4);
             transition: var(--transition);
             display: inline-block;
+            letter-spacing: 0.2px;
         }
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px -5px rgba(2, 132, 199, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(34, 211, 238, 0.6);
             opacity: 0.95;
         }
 
         .section-container {
-            max-width: 1300px;
-            margin: 100px auto;
+            max-width: 1400px;
+            margin: 140px auto;
             padding: 0 24px;
         }
-        .section-header { text-align: center; max-width: 650px; margin: 0 auto 60px auto; }
-        .section-title { color: var(--clinical-dark); font-size: 34px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
-        .section-subtitle { color: var(--clinical-gray); font-size: 16px; font-weight: 400; }
+        .section-header { text-align: center; max-width: 750px; margin: 0 auto 70px auto; }
+        .section-title { color: #ffffff; font-size: 40px; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+        .section-subtitle { color: var(--clinical-gray); font-size: 17px; }
 
         .anatomy-viewport {
             display: grid;
-            grid-template-columns: 320px 1fr;
-            background: #ffffff;
-            border-radius: 24px;
+            grid-template-columns: 350px 1fr;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
             overflow: hidden;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--border-color);
-            min-height: 650px;
+            min-height: 750px;
         }
         .anatomy-controls {
-            background: #fafafa;
-            padding: 40px 30px;
+            background: rgba(11, 15, 25, 0.5);
+            padding: 50px 35px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 16px;
             border-right: 1px solid var(--border-color);
         }
-        .anatomy-controls h4 { color: var(--clinical-dark); margin-bottom: 15px; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .anatomy-controls h4 { color: #ffffff; margin-bottom: 20px; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; opacity: 0.6; }
         
         .layer-btn {
-            background: #ffffff;
+            background: rgba(255,255,255,0.02);
             color: var(--clinical-gray);
-            padding: 14px 20px;
-            border-radius: 14px;
+            padding: 18px 24px;
+            border-radius: 20px;
             text-align: left;
-            font-weight: 600;
-            font-size: 14.5px;
+            font-weight: 700;
+            font-size: 15px;
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
         .layer-btn:hover {
-            border-color: var(--medical-blue);
-            color: var(--medical-blue);
-            background: #f0f9ff;
+            border-color: rgba(14, 165, 233, 0.4);
+            color: #ffffff;
+            background: rgba(255,255,255,0.05);
         }
         .layer-btn.active {
-            background: linear-gradient(135deg, var(--medical-blue), var(--medical-cyan));
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.25);
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(34, 211, 238, 0.05));
+            color: #ffffff;
+            border-color: var(--medical-blue);
+            box-shadow: inset 0 0 20px rgba(14, 165, 233, 0.2);
         }
         
         .anatomy-display {
@@ -219,11 +229,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #ffffff 0%, #f8fafc 100%);
-            padding: 40px;
+            background: radial-gradient(circle at center, rgba(17, 24, 39, 0.6) 0%, rgba(3, 7, 18, 0.9) 100%);
+            padding: 50px;
         }
         .render-box {
-            max-width: 420px;
+            max-width: 480px;
             width: 100%;
             height: 100%;
             display: flex;
@@ -233,208 +243,248 @@
         .render-box svg {
             width: 100%;
             height: auto;
-            max-height: 550px;
-            filter: drop-shadow(0 20px 30px rgba(15, 23, 42, 0.08));
+            max-height: 620px;
+            filter: drop-shadow(0 0 50px rgba(14, 165, 233, 0.25));
         }
         .anatomy-info-overlay {
             position: absolute;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            padding: 20px;
-            border-radius: 16px;
-            color: var(--clinical-dark);
+            bottom: 40px;
+            right: 40px;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 24px;
+            border-radius: 24px;
+            color: #ffffff;
             border: 1px solid var(--border-color);
-            max-width: 280px;
-            box-shadow: var(--card-shadow);
+            max-width: 320px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
-        .anatomy-info-overlay strong { font-size: 14px; color: var(--medical-blue); display: block; margin-bottom: 4px; }
-        .anatomy-info-overlay p { font-size: 12px; color: var(--clinical-gray); line-height: 1.5; }
+        .anatomy-info-overlay strong { font-size: 15px; color: var(--medical-cyan); display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .anatomy-info-overlay p { font-size: 13px; color: var(--clinical-gray); line-height: 1.6; }
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-bottom: 50px;
         }
         .metric-card {
-            background: #ffffff;
+            background: var(--clinical-card);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--card-shadow);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
             position: relative;
             overflow: hidden;
+            transition: var(--transition);
         }
         .metric-card.interactive-pulse {
-            border: 2px dashed var(--medical-blue);
+            border: 1px solid rgba(14, 165, 233, 0.4);
             cursor: pointer;
-            background: radial-gradient(circle at 90% 10%, #f0f9ff 0%, #ffffff 100%);
+            background: linear-gradient(145deg, rgba(14, 165, 233, 0.08) 0%, rgba(11, 15, 25, 0.6) 100%);
         }
-        .metric-label { font-size: 13px; font-weight: 700; color: var(--clinical-gray); text-transform: uppercase; letter-spacing: 0.5px; }
-        .metric-value { font-size: 28px; font-weight: 800; color: var(--clinical-dark); }
-        .metric-status { font-size: 13px; font-weight: 600; color: #16a34a; display: flex; align-items: center; gap: 4px; }
-        .metric-status.warning { color: #dc2626; }
-        .metric-status.processing { color: var(--medical-blue); animation: pulseText 1s infinite alternate; }
+        .metric-card.interactive-pulse:hover {
+            border-color: var(--medical-cyan);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.2);
+            transform: translateY(-2px);
+        }
+        .metric-label { font-size: 12px; font-weight: 800; color: var(--clinical-gray); text-transform: uppercase; letter-spacing: 1px; }
+        .metric-value { font-size: 36px; font-weight: 900; color: #ffffff; }
+        .metric-status { font-size: 13px; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 6px; }
+        .metric-status.warning { color: #f43f5e; }
+        .metric-status.processing { color: var(--medical-cyan); animation: pulseGlow 1s infinite alternate; }
 
-        @keyframes pulseText {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; }
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 5px rgba(34, 211, 238, 0.2); opacity: 0.7; }
+            100% { text-shadow: 0 0 15px rgba(34, 211, 238, 0.8); opacity: 1; }
         }
 
         .clinical-tools-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 32px;
+            gap: 40px;
         }
         .tool-panel {
-            background: #ffffff;
+            background: var(--clinical-card);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 35px;
-            box-shadow: var(--card-shadow);
+            border-radius: 28px;
+            padding: 45px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-        .tool-panel h3 { font-size: 20px; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.3px; }
-        .symptom-selector { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .tool-panel h3 { font-size: 24px; margin-bottom: 28px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
+        .symptom-selector { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
         .symptom-option {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
+            gap: 16px;
+            padding: 16px 20px;
             border: 1px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 16px;
             cursor: pointer;
+            background: rgba(255,255,255,0.01);
             transition: var(--transition);
         }
-        .symptom-option:hover { background: #f8fafc; border-color: var(--medical-blue); }
-        .symptom-option input { width: 16px; height: 16px; accent-color: var(--medical-blue); }
+        .symptom-option:hover { background: rgba(255,255,255,0.04); border-color: rgba(14, 165, 233, 0.3); }
+        .symptom-option input { width: 18px; height: 18px; accent-color: var(--medical-blue); }
         .diagnosis-output {
-            background: var(--clinical-light);
-            border-radius: 12px;
-            padding: 20px;
+            background: rgba(3, 7, 18, 0.5);
+            border-radius: 16px;
+            padding: 24px;
             border-left: 4px solid var(--medical-blue);
-            font-size: 14px;
-            min-height: 80px;
+            font-size: 15px;
+            color: #e5e7eb;
+            min-height: 90px;
         }
 
-        .glossary-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 30px; justify-content: center; }
+        .glossary-filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 35px; justify-content: center; }
         .letter-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
-            background: #ffffff;
-            font-weight: 600;
+            background: rgba(255,255,255,0.02);
+            font-weight: 700;
             font-size: 14px;
             color: var(--clinical-gray);
             transition: var(--transition);
         }
         .letter-btn:hover, .letter-btn.active {
-            background: var(--clinical-dark);
-            color: white;
-            border-color: transparent;
-        }
-        .glossary-container { display: flex; flex-direction: column; gap: 16px; }
-        .glossary-item {
             background: #ffffff;
+            color: #030712;
+            border-color: transparent;
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+        .glossary-container { display: flex; flex-direction: column; gap: 20px; }
+        .glossary-item {
+            background: rgba(255,255,255,0.01);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px 24px;
+            border-radius: 16px;
+            padding: 24px 32px;
             display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 20px;
+            grid-template-columns: 220px 1fr;
+            gap: 24px;
             align-items: center;
         }
-        .glossary-term { font-weight: 700; font-size: 16px; color: var(--medical-blue); }
-        .glossary-def { font-size: 14px; color: var(--clinical-gray); }
+        .glossary-term { font-weight: 800; font-size: 18px; color: var(--medical-blue); }
+        .glossary-def { font-size: 15px; color: var(--clinical-gray); }
 
         .doc-search-box {
-            max-width: 550px;
-            margin: 0 auto 50px auto;
+            max-width: 600px;
+            margin: 0 auto 60px auto;
             display: flex;
-            background: white;
+            background: rgba(255,255,255,0.02);
             border-radius: 100px;
-            padding: 6px 8px;
-            box-shadow: var(--card-shadow);
+            padding: 8px 10px;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.05);
             border: 1px solid var(--border-color);
         }
         .doc-search-box input {
             flex: 1;
             border: none;
             outline: none;
-            padding: 10px 20px;
-            font-size: 15px;
-            color: var(--clinical-dark);
+            background: transparent;
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #ffffff;
         }
+        .doc-search-box input::placeholder { color: #4b5563; }
         .doc-search-box button {
-            background: var(--clinical-dark);
-            color: white;
-            padding: 10px 28px;
+            background: #ffffff;
+            color: #030712;
+            padding: 12px 36px;
             border-radius: 100px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 14px;
             transition: var(--transition);
         }
-        .doc-search-box button:hover { background: var(--medical-blue); }
+        .doc-search-box button:hover { background: var(--medical-cyan); }
 
         .docs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 40px;
         }
         .doc-card {
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
+            background: var(--clinical-card);
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             border: 1px solid var(--border-color);
             transition: var(--transition);
             position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         .doc-card:hover { 
-            transform: translateY(-4px); 
-            border-color: #bae6fd;
-            box-shadow: 0 20px 25px -5px rgba(2, 132, 199, 0.08);
+            transform: translateY(-6px); 
+            border-color: rgba(14, 165, 233, 0.5);
+            box-shadow: var(--card-shadow);
+        }
+        .doc-img-wrapper {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .doc-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+            filter: brightness(0.8) contrast(1.1);
+        }
+        .doc-card:hover .doc-img-wrapper img {
+            transform: scale(1.06);
+            filter: brightness(0.95) contrast(1.15);
+        }
+        .doc-text-block {
+            padding: 35px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         .doc-tag {
             display: inline-block;
-            background: #e0f2fe;
-            color: var(--medical-blue);
-            padding: 4px 12px;
-            border-radius: 6px;
+            background: rgba(14, 165, 233, 0.15);
+            color: var(--medical-cyan);
+            padding: 6px 14px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             margin-bottom: 20px;
+            align-self: flex-start;
+            border: 1px solid rgba(14, 165, 233, 0.2);
         }
-        .doc-card h3 { font-size: 19px; margin-bottom: 12px; color: var(--clinical-dark); font-weight: 700; letter-spacing: -0.3px; }
-        .doc-card p { color: var(--clinical-gray); font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
-        .doc-card a { font-size: 14px; color: var(--medical-blue); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition); }
-        .doc-card a:hover { color: var(--clinical-dark); }
+        .doc-card h3 { font-size: 21px; margin-bottom: 14px; color: #ffffff; font-weight: 800; letter-spacing: -0.4px; }
+        .doc-card p { color: var(--clinical-gray); font-size: 14.5px; margin-bottom: 28px; line-height: 1.6; }
+        .doc-card a { font-size: 14.5px; color: var(--medical-cyan); font-weight: 700; display: inline-flex; align-items: center; gap: 8px; transition: var(--transition); margin-top: auto; }
+        .doc-card a:hover { color: #ffffff; }
 
         footer {
-            background-color: #ffffff;
+            background-color: #0b0f19;
             border-top: 1px solid var(--border-color);
             color: var(--clinical-gray);
-            padding: 60px 24px;
+            padding: 80px 24px;
             text-align: center;
             font-size: 14px;
         }
-        footer p { margin-bottom: 12px; }
-        .disclaimer-box { max-width: 800px; margin: 24px auto 0 auto; padding-top: 24px; border-top: 1px dashed var(--border-color); font-size: 12px; opacity: 0.75; }
+        footer p { margin-bottom: 14px; }
+        .disclaimer-box { max-width: 900px; margin: 32px auto 0 auto; padding-top: 32px; border-top: 1px dashed var(--border-color); font-size: 12px; opacity: 0.6; }
 
-        @media (max-width: 900px) {
+        @media (max-width: 950px) {
             .anatomy-viewport { grid-template-columns: 1fr; min-height: auto; }
-            .anatomy-controls { border-right: none; border-bottom: 1px solid var(--border-color); padding: 30px 20px; }
+            .anatomy-controls { border-right: none; border-bottom: 1px solid var(--border-color); padding: 35px 24px; }
             .clinical-tools-layout { grid-template-columns: 1fr; }
-            .glossary-item { grid-template-columns: 1fr; gap: 8px; }
-            .hero h1 { font-size: 34px; }
-            .nav-container { flex-direction: column; gap: 20px; }
+            .glossary-item { grid-template-columns: 1fr; gap: 10px; }
+            .hero h1 { font-size: 38px; }
+            .nav-container { flex-direction: column; gap: 24px; }
             .nav-right { width: 100%; justify-content: space-between; }
         }
     </style>
@@ -491,7 +541,28 @@
             
             <div class="anatomy-display">
                 <div class="render-box" id="render-box">
-                    <svg id="anatomy-svg" viewBox="0 0 240 500" xmlns="http://www.w3.org/2000/svg"></svg>
+                    <svg id="anatomy-svg" viewBox="0 0 240 500" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="skeletalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="60%" stop-color="#e2e8f0"/>
+                                <stop offset="100%" stop-color="#94a3b8"/>
+                            </linearGradient>
+                            <linearGradient id="organGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ff8a8a"/>
+                                <stop offset="100%" stop-color="#bd1c1c"/>
+                            </linearGradient>
+                            <linearGradient id="muscleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#dc2626"/>
+                                <stop offset="50%" stop-color="#991b1b"/>
+                                <stop offset="100%" stop-color="#4c0519"/>
+                            </linearGradient>
+                            <radialGradient id="shadowGlow" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="rgba(14, 165, 233, 0.3)"/>
+                                <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+                            </radialGradient>
+                        </defs>
+                    </svg>
                 </div>
                 <div class="anatomy-info-overlay">
                     <strong id="overlay-status">Active Render</strong>
@@ -579,22 +650,37 @@
 
         <div class="docs-grid" id="docs-grid">
             <div class="doc-card" data-category="Cardiology">
-                <span class="doc-tag">Cardiology</span>
-                <h3 class="doc-title-1">Advanced Myocardial Pathologies</h3>
-                <p class="doc-desc-1">Detailed documentation regarding chronic cardiovascular syndromes, structural defects and modern treatment standards.</p>
-                <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+                <div class="doc-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1628595351029-c2bf17511435?auto=format&fit=crop&w=800&q=80" alt="Cardiology Image">
+                </div>
+                <div class="doc-text-block">
+                    <span class="doc-tag">Cardiology</span>
+                    <h3 class="doc-title-1">Advanced Myocardial Pathologies</h3>
+                    <p class="doc-desc-1">Detailed documentation regarding chronic cardiovascular syndromes, structural defects and modern treatment standards.</p>
+                    <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+                </div>
             </div>
             <div class="doc-card" data-category="Neurology">
-                <span class="doc-tag">Neurology</span>
-                <h3 class="doc-title-2">Neuroplasticity and Synaptic Mapping</h3>
-                <p class="doc-desc-2">A technical analysis of cortical mapping adjustments and synaptic networks under motor recovery variables.</p>
-                <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+                <div class="doc-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=800&q=80" alt="Neurology Image">
+                </div>
+                <div class="doc-text-block">
+                    <span class="doc-tag">Neurology</span>
+                    <h3 class="doc-title-2">Neuroplasticity and Synaptic Mapping</h3>
+                    <p class="doc-desc-2">A technical analysis of cortical mapping adjustments and synaptic networks under motor recovery variables.</p>
+                    <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+                </div>
             </div>
             <div class="doc-card" data-category="Pharmacology">
-                <span class="doc-tag">Pharmacology</span>
-                <h3 class="doc-title-3">Pharmacokinetics Framework</h3>
-                <p class="doc-desc-3">Core clinical manuals examining dynamic compound absorption rates, distribution curves, and cell processing.</p>
-                <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+                <div class="doc-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=800&q=80" alt="Pharmacology Image">
+                </div>
+                <div class="doc-text-block">
+                    <span class="doc-tag">Pharmacology</span>
+                    <h3 class="doc-title-3">Pharmacokinetics Framework</h3>
+                    <p class="doc-desc-3">Core clinical manuals examining dynamic compound absorption rates, distribution curves, and cell processing.</p>
+                    <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+                </div>
             </div>
         </div>
     </section>
@@ -636,9 +722,9 @@
                 doc1T: "Advanced Myocardial Pathologies", doc1D: "Detailed documentation regarding chronic cardiovascular syndromes, structural defects and modern treatment standards.",
                 doc2T: "Neuroplasticity and Synaptic Mapping", doc2D: "A technical analysis of cortical mapping adjustments and synaptic networks under motor recovery variables.",
                 doc3T: "Pharmacokinetics Framework", doc3D: "Core clinical manuals examining dynamic compound absorption rates, distribution curves, and cell processing.",
-                descSkeletal: "Visualizing full cranial structure, costal cage architectures, spinal alignment, and long-bone femoral extensions.",
-                descOrgans: "Inspecting cerebral structures, pulmonary gas exchange modules, dynamic cardiac ventricles, hepatic mass, and gastrointestinal tracts.",
-                descMuscular: "Displaying critical deltoid fiber bands, pectoralis major muscle walls, rectus abdominis grid arrays, and quad tendon frameworks."
+                descSkeletal: "High-realism 3D render: Visualizing deep cranial bones, layered maxilla components, complete ribcage depth maps, detailed dynamic vertebrae linkages, and cortical bone densities.",
+                descOrgans: "High-realism 3D render: Volumetric detailing of cerebral hemispheres, pulmonary lobes gas exchange tracking, dual-chamber cardiac volumetric models, hepatic structure and digestive paths.",
+                descMuscular: "High-realism 3D render: Deep tissue rendering of striatal fiber tracks, heavy deltoid masses, layered pectoralis alignments, abdominal wall tendon intersections and femur stabilizers."
             },
             pt: {
                 navHome: "Início", navAnatomy: "Anatomia", navMetrics: "Painel", navTools: "Ferramentas", navDocs: "Documentação",
@@ -668,9 +754,9 @@
                 doc1T: "Patologias Miocárdicas Avançadas", doc1D: "Documentação detalhada sobre síndromes cardiovasculares crônicas, defeitos estruturais e diretrizes modernas de conduta terapêutica.",
                 doc2T: "Neuroplasticidade e Mapeamento Sináptico", doc2D: "Análise técnica de alterações no mapeamento cortical e arranjos de redes sinápticas sob variáveis de reabilitação motora.",
                 doc3T: "Framework de Farmacocinética", doc3D: "Manuais clínicos essenciais avaliando taxas dinâmicas de absorção de compostos, curvas de distribuição biológica e processamento celular.",
-                descSkeletal: "Visualizando a estrutura craniana completa, arquitetura da caixa costal, alinhamento espinhal e extensões femorais de ossos longos.",
-                descOrgans: "Inspecionando estruturas cerebrais, módulos de troca gasosa pulmonar, ventrículos cardíacos dinâmicos, massa hepática e trato gastrointestinal.",
-                descMuscular: "Exibindo faixas de fibras deltoides críticas, paredes do músculo peitoral maior, matrizes do resto abdominal e estruturas de tendões do quadríceps."
+                descSkeletal: "Renderização 3D Realista: Visualização profunda dos ossos cranianos, mapeamento de textura da maxila, caixa torácica tridimensional com profundidade, vértebras dinâmicas detalhadas e densidades corticais.",
+                descOrgans: "Renderização 3D Realista: Detalhamento volumétrico dos hemisférios cerebrais, troca gasosa nos lobos pulmonares, modelos cardíacos de dupla câmara, estrutura hepática e tratos digestivos.",
+                descMuscular: "Renderização 3D Realista: Mapeamento de tecidos profundos das trilhas de fibras estriadas, massa deltoide complexa, alinhamentos peitorais em camadas e intersecções tendíneas abdominais."
             }
         };
 
@@ -683,60 +769,54 @@
 
         const models = {
             skeletal: `
-                <path d="M120,40 C100,40 95,55 95,70 C95,85 105,95 120,95 C135,95 145,85 145,70 C145,55 140,40 120,40 Z" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"/>
-                <path d="M108,72 Q112,68 114,74 M126,74 Q128,68 132,72" stroke="#94a3b8" stroke-width="2" fill="none"/>
-                <path d="M115,84 Q120,80 125,84" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
-                <rect x="116" y="95" width="8" height="25" rx="2" fill="#cbd5e1"/>
-                <line x1="120" y1="120" x2="120" y2="280" stroke="#cbd5e1" stroke-width="6" stroke-dasharray="4,2"/>
-                <path d="M70,123 Q120,130 170,123" stroke="#e2e8f0" stroke-width="4" fill="none"/>
-                <rect x="116" y="125" width="8" height="90" rx="3" fill="#e2e8f0"/>
-                <path d="M85,135 Q120,140 155,135 M80,150 Q120,157 160,150 M78,165 Q120,174 162,165 M78,180 Q120,190 162,180 M82,195 Q120,205 158,195 M88,210 Q120,218 152,210" stroke="#e2e8f0" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-                <path d="M90,260 C90,240 100,245 120,250 C140,245 150,240 150,260 C150,285 135,290 120,290 C105,290 90,285 90,260 Z" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
-                <circle cx="104" cy="268" r="7" fill="#f8fafc"/>
-                <circle cx="136" cy="268" r="7" fill="#f8fafc"/>
-                <path d="M68,125 Q52,180 50,200" stroke="#e2e8f0" stroke-width="4.5" stroke-linecap="round"/>
-                <path d="M50,205 Q45,255 42,270" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round"/>
-                <path d="M172,125 Q188,180 190,200" stroke="#e2e8f0" stroke-width="4.5" stroke-linecap="round"/>
-                <path d="M190,205 Q195,255 198,270" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round"/>
-                <path d="M102,285 Q95,350 92,390" stroke="#e2e8f0" stroke-width="7" stroke-linecap="round"/>
-                <circle cx="92" cy="396" r="5" fill="#cbd5e1"/>
-                <path d="M92,402 Q92,460 90,480" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
-                <path d="M138,285 Q145,350 148,390" stroke="#e2e8f0" stroke-width="7" stroke-linecap="round"/>
-                <circle cx="148" cy="396" r="5" fill="#cbd5e1"/>
-                <path d="M148,402 Q148,460 150,480" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="120" cy="250" r="130" fill="url(#shadowGlow)"/>
+                <path d="M120,35 C95,35 90,52 90,72 C90,92 102,102 120,102 C138,102 150,92 150,72 C150,52 145,35 120,35 Z" fill="url(#skeletalGrad)" stroke="#64748b" stroke-width="1.5"/>
+                <path d="M102,74 C102,64 114,64 114,74 Z M126,74 C126,64 138,64 138,74 Z" fill="#0f172a" opacity="0.85"/>
+                <path d="M114,88 Q120,80 126,88 L126,94 Q120,96 114,94 Z" fill="#475569"/>
+                <path d="M100,102 L140,102 L135,115 L105,115 Z" fill="url(#skeletalGrad)" stroke="#64748b"/>
+                <rect x="116" y="115" width="8" height="20" fill="url(#skeletalGrad)"/>
+                <path d="M75,135 Q120,145 165,135 L160,150 Q120,160 80,150 Z" fill="url(#skeletalGrad)"/>
+                <g fill="none" stroke="url(#skeletalGrad)" stroke-width="4" stroke-linecap="round">
+                    <path d="M90,160 Q120,172 150,160 M85,175 Q120,190 155,175 M82,192 Q120,208 158,192 M82,210 Q120,228 158,210 M85,228 Q120,248 155,228 M90,246 Q120,264 150,246"/>
+                </g>
+                <line x1="120" y1="135" x2="120" y2="285" stroke="#94a3b8" stroke-width="8" stroke-dasharray="6,3"/>
+                <path d="M85,285 C85,265 95,270 120,275 C145,270 155,265 155,285 C155,310 140,315 120,315 C100,315 85,310 85,285 Z" fill="url(#skeletalGrad)" stroke="#475569"/>
+                <path d="M72,140 L50,210 L45,285" fill="none" stroke="url(#skeletalGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M168,140 L190,210 L195,285" fill="none" stroke="url(#skeletalGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M98,310 L92,400 L90,485" fill="none" stroke="url(#skeletalGrad)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M142,310 L148,400 L150,485" fill="none" stroke="url(#skeletalGrad)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="92" cy="400" r="6" fill="#cbd5e1"/>
+                <circle cx="148" cy="400" r="6" fill="#cbd5e1"/>
             `,
             organs: `
-                <path d="M100,68 C90,64 92,46 120,44 C148,46 150,64 140,68 C145,76 135,88 120,86 C105,88 95,76 100,68 Z" fill="#fda4af" stroke="#f43f5e" stroke-width="1.5"/>
-                <path d="M112,45 Q120,55 114,68 M126,45 Q120,55 126,68 M102,62 Q120,60 138,62 M108,74 Q120,76 132,74" stroke="#f43f5e" stroke-width="1" fill="none"/>
-                <rect x="117" y="86" width="6" height="35" fill="#93c5fd" opacity="0.8"/>
-                <path d="M116,125 C105,120 82,130 82,165 C82,200 100,205 114,195 Z" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"/>
-                <path d="M124,125 C135,120 158,130 158,165 C158,200 140,205 126,195 Z" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"/>
-                <path d="M115,155 C110,145 130,135 132,150 C135,165 120,175 118,178 C115,175 108,165 115,155 Z" fill="#dc2626" stroke="#991b1b" stroke-width="1.5"/>
-                <path d="M122,146 Q124,136 130,140" stroke="#3b82f6" stroke-width="2.5" fill="none"/>
-                <path d="M88,206 L120,204 Q134,206 130,222 L94,226 Z" fill="#b91c1c" opacity="0.9"/>
-                <path d="M122,212 Q144,210 140,230 Q130,245 116,235 Q112,222 122,212 Z" fill="#f87171"/>
-                <path d="M96,242 H144 Q148,265 140,285 Q100,290 96,280 Z" fill="#fcd34d" stroke="#d97706" stroke-width="1.5" opacity="0.85"/>
-                <path d="M104,248 Q120,254 136,248 M102,258 Q120,266 138,258 M102,268 Q120,274 138,268 M106,278 Q120,282 134,278" stroke="#d97706" stroke-width="2" fill="none"/>
+                <circle cx="120" cy="250" r="130" fill="url(#shadowGlow)"/>
+                <path d="M92,68 C82,62 85,42 120,40 C155,42 158,62 148,68 C155,78 142,92 120,90 C98,92 85,78 92,68 Z" fill="#e11d48" opacity="0.85" filter="drop-shadow(0 0 8px rgba(225,29,72,0.5))"/>
+                <rect x="117" y="90" width="6" height="40" fill="#22d3ee" opacity="0.6"/>
+                <path d="M116,130 C102,125 78,135 78,175 C78,215 98,220 114,208 Z" fill="url(#organGrad)" stroke="#991b1b"/>
+                <path d="M124,130 C138,125 162,135 162,175 C162,215 142,220 126,208 Z" fill="url(#organGrad)" stroke="#991b1b"/>
+                <path d="M114,160 C108,150 132,138 134,155 C138,172 122,185 118,188 C114,185 106,172 114,160 Z" fill="#0ea5e9" filter="drop-shadow(0 0 6px #0ea5e9)"/>
+                <path d="M82,218 L122,214 Q138,216 134,234 L90,240 Z" fill="#991b1b"/>
+                <path d="M92,250 H148 Q154,275 144,300 Q100,310 92,295 Z" fill="#eab308" opacity="0.8"/>
+                <path d="M100,258 Q120,264 140,258 M96,270 Q120,278 144,270 M96,282 Q120,290 144,282" stroke="#ca8a04" stroke-width="2" fill="none"/>
             `,
             muscular: `
-                <path d="M106,95 L116,125 L124,125 L134,95 Z" fill="#991b1b" opacity="0.8"/>
-                <path d="M68,125 C62,135 60,155 72,165 C76,150 78,135 68,125 Z" fill="#b91c1c"/>
-                <path d="M172,125 C178,135 180,155 168,165 C164,150 162,135 172,125 Z" fill="#b91c1c"/>
-                <path d="M76,130 Q120,140 120,175 Q90,175 74,160 Z" fill="#991b1b" stroke="#7f1d1d" stroke-width="0.5"/>
-                <path d="M164,130 Q120,140 120,175 Q150,175 166,160 Z" fill="#991b1b" stroke="#7f1d1d" stroke-width="0.5"/>
-                <rect x="98" y="182" width="44" height="65" rx="4" fill="#991b1b"/>
-                <rect x="102" y="186" width="16" height="12" rx="2" fill="#881337"/>
-                <rect x="122" y="186" width="16" height="12" rx="2" fill="#881337"/>
-                <rect x="102" y="202" width="16" height="12" rx="2" fill="#881337"/>
-                <rect x="122" y="202" width="16" height="12" rx="2" fill="#881337"/>
-                <rect x="102" y="218" width="16" height="12" rx="2" fill="#881337"/>
-                <rect x="122" y="218" width="16" height="12" rx="2" fill="#881337"/>
-                <path d="M72,166 Q60,200 56,215 Q68,200 74,175 Z" fill="#b91c1c"/>
-                <path d="M168,166 Q180,200 184,215 Q172,200 166,175 Z" fill="#b91c1c"/>
-                <path d="M94,290 C84,330 84,370 94,395 C102,370 106,330 104,290 Z" fill="#991b1b"/>
-                <path d="M105,290 C108,330 110,370 101,395 C114,370 118,330 115,290 Z" fill="#b91c1c"/>
-                <path d="M146,290 C156,330 156,370 146,395 C138,370 134,330 136,290 Z" fill="#991b1b"/>
-                <path d="M135,290 C132,330 130,370 139,395 C126,370 122,330 125,290 Z" fill="#b91c1c"/>
+                <circle cx="120" cy="250" r="130" fill="url(#shadowGlow)"/>
+                <path d="M95,130 L115,160 L125,160 L145,130 Z" fill="url(#muscleGrad)"/>
+                <path d="M65,130 C58,142 55,165 70,175 C75,158 78,142 65,130 Z" fill="url(#muscleGrad)"/>
+                <path d="M175,130 C182,142 185,165 170,175 C165,158 162,142 175,130 Z" fill="url(#muscleGrad)"/>
+                <path d="M72,135 Q120,148 120,185 Q88,185 70,168 Z" fill="url(#muscleGrad)" stroke="#4c0519" stroke-width="0.5"/>
+                <path d="M168,135 Q120,148 120,185 Q152,185 170,168 Z" fill="url(#muscleGrad)" stroke="#4c0519" stroke-width="0.5"/>
+                <rect x="94" y="195" width="52" height="75" rx="6" fill="url(#muscleGrad)"/>
+                <g fill="#4c0519" opacity="0.6">
+                    <rect x="98" y="200" width="20" height="15" rx="2"/>
+                    <rect x="122" y="200" width="20" height="15" rx="2"/>
+                    <rect x="98" y="220" width="20" height="15" rx="2"/>
+                    <rect x="122" y="220" width="20" height="15" rx="2"/>
+                    <rect x="98" y="240" width="20" height="15" rx="2"/>
+                    <rect x="122" y="240" width="20" height="15" rx="2"/>
+                </g>
+                <path d="M90,300 C78,345 78,390 90,420 C100,390 104,345 102,300 Z" fill="url(#muscleGrad)"/>
+                <path d="M150,300 C162,345 162,390 150,420 C140,390 136,345 138,300 Z" fill="url(#muscleGrad)"/>
             `
         };
 
@@ -820,7 +900,8 @@
             const svgContainer = document.getElementById('anatomy-svg');
             const overlayDesc = document.getElementById('overlay-desc');
             
-            svgContainer.innerHTML = models[layerType];
+            const defs = svgContainer.querySelector('defs').outerHTML;
+            svgContainer.innerHTML = defs + models[layerType];
 
             if(layerType === 'skeletal') {
                 overlayDesc.innerText = translations[currentLang].descSkeletal;
@@ -844,10 +925,10 @@
 
             if (selected.includes('dyspnea')) {
                 output.innerText = translations[currentLang].symAlert;
-                output.style.borderColor = "#dc2626";
+                output.style.borderColor = "#f43f5e";
             } else {
                 output.innerText = translations[currentLang].symMild;
-                output.style.borderColor = "#d97706";
+                output.style.borderColor = "#eab308";
             }
         }
 
@@ -885,7 +966,7 @@
                 const category = card.getAttribute('data-category').toLowerCase();
 
                 if (title.includes(query) || desc.includes(query) || category.includes(query)) {
-                    card.style.display = 'block';
+                    card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
                 }
