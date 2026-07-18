@@ -267,11 +267,24 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .metric-card.interactive-pulse {
+            border: 2px dashed var(--medical-blue);
+            cursor: pointer;
+            background: radial-gradient(circle at 90% 10%, #f0f9ff 0%, #ffffff 100%);
         }
         .metric-label { font-size: 13px; font-weight: 700; color: var(--clinical-gray); text-transform: uppercase; letter-spacing: 0.5px; }
         .metric-value { font-size: 28px; font-weight: 800; color: var(--clinical-dark); }
         .metric-status { font-size: 13px; font-weight: 600; color: #16a34a; display: flex; align-items: center; gap: 4px; }
         .metric-status.warning { color: #dc2626; }
+        .metric-status.processing { color: var(--medical-blue); animation: pulseText 1s infinite alternate; }
+
+        @keyframes pulseText {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
 
         .clinical-tools-layout {
             display: grid;
@@ -491,14 +504,19 @@
     <section class="section-container" id="clinical-data">
         <div class="section-header">
             <h2 class="section-title" id="dash-title">Clinical Metrics Dashboard</h2>
-            <p class="section-subtitle" id="dash-subtitle">Real-time vital analytics and processing telemetry parameters.</p>
+            <p class="section-subtitle" id="dash-subtitle">Real-time vital analytics and processing telemetry parameters. Tap/Click anywhere or tap the card to align system tracking with your pulse.</p>
         </div>
 
         <div class="dashboard-grid">
-            <div class="metric-card">
+            <div class="metric-card interactive-pulse" id="card-bpm-monitor">
                 <div class="metric-label" id="lbl-hr">Heart Rate</div>
-                <div class="metric-value">72 <span style="font-size: 16px; font-weight:500;">BPM</span></div>
-                <div class="metric-status" id="st-hr">Optimal</div>
+                <div class="metric-value" id="val-hr">-- <span style="font-size: 16px; font-weight:500;">BPM</span></div>
+                <div class="metric-status" id="st-hr">Initializing...</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label" id="lbl-bps">Frequency Output</div>
+                <div class="metric-value" id="val-bps">-- <span style="font-size: 16px; font-weight:500;">BPS</span></div>
+                <div class="metric-status" id="st-bps">Calculating...</div>
             </div>
             <div class="metric-card">
                 <div class="metric-label" id="lbl-bp">Blood Pressure</div>
@@ -509,11 +527,6 @@
                 <div class="metric-label" id="lbl-ox">Oxygen Saturation</div>
                 <div class="metric-value">98%</div>
                 <div class="metric-status" id="st-ox">Stable</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label" id="lbl-temp">Core Temperature</div>
-                <div class="metric-value">36.7°C</div>
-                <div class="metric-status" id="st-temp">Normal</div>
             </div>
         </div>
     </section>
@@ -606,9 +619,9 @@
                 layerSk: "Skeletal System", layerOr: "Organs & Biologicals", layerMu: "Muscular Tissue",
                 overlayStatus: "Active Render System",
                 dashTitle: "Clinical Metrics Dashboard",
-                dashSubtitle: "Real-time vital analytics and processing telemetry parameters.",
-                lblHr: "Heart Rate", lblBp: "Blood Pressure", lblOx: "Oxygen Saturation", lblTemp: "Core Temperature",
-                stOpt: "Optimal", stNorm: "Normal", stStab: "Stable",
+                dashSubtitle: "Real-time vital analytics and processing telemetry parameters. Tap/Click anywhere or tap the card to align system tracking with your pulse.",
+                lblHr: "Heart Rate", lblBps: "Frequency Output", lblBp: "Blood Pressure", lblOx: "Oxygen Saturation",
+                stOpt: "Optimal", stNorm: "Normal", stStab: "Stable", stCalc: "Tracking Live", stTap: "Capturing...",
                 panelSymptomsTitle: "Symptom Checker",
                 optFever: "High Fever", optCough: "Persistent Dry Cough", optDyspnea: "Shortness of Breath",
                 symDefault: "Select symptoms above to generate immediate evaluation.",
@@ -638,9 +651,9 @@
                 layerSk: "Sistema Esquelético", layerOr: "Órgãos e Biológicos", layerMu: "Tecido Muscular",
                 overlayStatus: "Sistema de Renderização Ativo",
                 dashTitle: "Painel de Métricas Clínicas",
-                dashSubtitle: "Análise de sinais vitais em tempo real e parâmetros de telemetria.",
-                lblHr: "Frequência Cardíaca", lblBp: "Pressão Arterial", lblOx: "Saturação de Oxigênio", lblTemp: "Temperatura Corpórea",
-                stOpt: "Otimizado", stNorm: "Normal", stStab: "Estável",
+                dashSubtitle: "Análise de sinais vitais em tempo real e parâmetros de telemetria. Toque em qualquer lugar ou no card para sincronizar o monitor com seu pulso.",
+                lblHr: "Frequência Cardíaca", lblBps: "Frequência de Saída", lblBp: "Pressão Arterial", lblOx: "Saturação de Oxigênio",
+                stOpt: "Otimizado", stNorm: "Normal", stStab: "Estável", stCalc: "Monitorando Live", stTap: "Capturando...",
                 panelSymptomsTitle: "Verificador de Sintomas",
                 optFever: "Febre Alta", optCough: "Tosse Seca Persistente", optDyspnea: "Falta de Ar / Dispneia",
                 symDefault: "Selecione os sintomas acima para gerar uma avaliação imediata.",
@@ -728,6 +741,10 @@
         };
 
         let currentLang = 'en';
+        let tapTimes = [];
+        let simulationInterval = null;
+        let lastTapTime = 0;
+        let activeTracking = false;
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -754,13 +771,19 @@
             document.getElementById('dash-title').innerText = data.dashTitle;
             document.getElementById('dash-subtitle').innerText = data.dashSubtitle;
             document.getElementById('lbl-hr').innerText = data.lblHr;
+            document.getElementById('lbl-bps').innerText = data.lblBps;
             document.getElementById('lbl-bp').innerText = data.lblBp;
             document.getElementById('lbl-ox').innerText = data.lblOx;
-            document.getElementById('lbl-temp').innerText = data.lblTemp;
-            document.getElementById('st-hr').innerText = data.stOpt;
             document.getElementById('st-bp').innerText = data.stNorm;
             document.getElementById('st-ox').innerText = data.stStab;
-            document.getElementById('st-temp').innerText = data.stNorm;
+
+            if(!activeTracking) {
+                document.getElementById('st-hr').innerText = data.stCalc;
+                document.getElementById('st-bps').innerText = data.stCalc;
+            } else {
+                document.getElementById('st-hr').innerText = data.stTap;
+                document.getElementById('st-bps').innerText = data.stTap;
+            }
 
             document.getElementById('panel-symptoms-title').innerText = data.panelSymptomsTitle;
             document.getElementById('opt-fever').innerText = data.optFever;
@@ -869,11 +892,88 @@
             });
         }
 
+        function processHeartRateTap(e) {
+            if (e.target.closest('header') || e.target.closest('input') || e.target.closest('button') || e.target.closest('a')) {
+                return;
+            }
+
+            const now = performance.now();
+            activeTracking = true;
+            lastTapTime = now;
+
+            if (tapTimes.length > 0 && (now - tapTimes[tapTimes.length - 1] > 2500)) {
+                tapTimes = [];
+            }
+
+            tapTimes.push(now);
+
+            if (tapTimes.length > 1) {
+                if (tapTimes.length > 5) tapTimes.shift();
+                
+                let intervalsSum = 0;
+                for (let i = 1; i < tapTimes.length; i++) {
+                    intervalsSum += (tapTimes[i] - tapTimes[i - 1]);
+                }
+                
+                const avgInterval = intervalsSum / (tapTimes.length - 1);
+                const bpm = Math.round(60000 / avgInterval);
+                const bps = (1000 / avgInterval).toFixed(2);
+
+                updatePulseDisplay(bpm, bps, true);
+            } else {
+                document.getElementById('st-hr').innerText = translations[currentLang].stTap;
+                document.getElementById('st-bps').innerText = translations[currentLang].stTap;
+            }
+        }
+
+        function updatePulseDisplay(bpm, bps, userDriven) {
+            const hrVal = document.getElementById('val-hr');
+            const bpsVal = document.getElementById('val-bps');
+            const hrStatus = document.getElementById('st-hr');
+            const bpsStatus = document.getElementById('st-bps');
+
+            hrVal.innerHTML = `${bpm} <span style="font-size: 16px; font-weight:500;">BPM</span>`;
+            bpsVal.innerHTML = `${bps} <span style="font-size: 16px; font-weight:500;">BPS</span>`;
+
+            if (userDriven) {
+                hrStatus.innerText = translations[currentLang].stTap;
+                hrStatus.className = "metric-status processing";
+                bpsStatus.innerText = translations[currentLang].stTap;
+                bpsStatus.className = "metric-status processing";
+            } else {
+                hrStatus.innerText = translations[currentLang].stOpt;
+                hrStatus.className = "metric-status";
+                bpsStatus.innerText = translations[currentLang].stStab;
+                bpsStatus.className = "metric-status";
+            }
+        }
+
+        function initializeTelemetrySimulation() {
+            simulationInterval = setInterval(() => {
+                const now = performance.now();
+                
+                if (activeTracking && (now - lastTapTime > 4000)) {
+                    activeTracking = false;
+                    tapTimes = [];
+                }
+
+                if (!activeTracking) {
+                    const baseBpm = 72 + Math.sin(now / 2000) * 3 + (Math.random() - 0.5) * 2;
+                    const bpm = Math.round(baseBpm);
+                    const bps = (bpm / 60).toFixed(2);
+                    updatePulseDisplay(bpm, bps, false);
+                }
+            }, 1000);
+        }
+
         document.getElementById('doc-search-input').addEventListener('keyup', searchDocs);
+        window.addEventListener('touchstart', processHeartRateTap, { passive: true });
+        window.addEventListener('mousedown', processHeartRateTap);
         
         window.onload = () => {
             changeLayer('skeletal', document.querySelector('.layer-btn.active'));
             filterGlossary('All', document.querySelector('.letter-btn.active'));
+            initializeTelemetrySimulation();
         };
     </script>
 </body>
