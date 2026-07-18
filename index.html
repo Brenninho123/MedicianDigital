@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedicianDigital | Clinical OS & Anatomy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --medical-blue: #0284c7;
+            --medical-cyan: #06b6d4;
+            --clinical-dark: #0f172a;
+            --clinical-gray: #334155;
+            --clinical-light: #f8fafc;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--clinical-light);
+            color: var(--clinical-dark);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button { cursor: pointer; border: none; background: none; }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--clinical-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--medical-blue), var(--medical-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 26px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--clinical-gray);
+            transition: var(--transition);
+            font-size: 14.5px;
+        }
+
+        .nav-links a:hover { color: var(--medical-blue); }
+
+        .lang-dropdown { position: relative; display: inline-block; }
+        .gear-btn {
+            font-size: 20px;
+            color: var(--clinical-gray);
+            transition: var(--transition);
+            padding: 6px;
+            display: flex;
+            border-radius: 50%;
+            background: #f1f5f9;
+        }
+        .lang-dropdown:hover .gear-btn {
+            color: var(--medical-blue);
+            transform: rotate(60deg);
+            background: #e0f2fe;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #ffffff;
+            min-width: 150px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+        }
+        .dropdown-content button {
+            width: 100%;
+            text-align: left;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--clinical-dark);
+            transition: var(--transition);
+        }
+        .dropdown-content button:hover {
+            background-color: #f0f9ff;
+            color: var(--medical-blue);
+        }
+        .lang-dropdown:hover .dropdown-content { display: block; }
+
+        .hero {
+            background: radial-gradient(100% 100% at 50% 0%, rgba(224, 242, 254, 0.6) 0%, rgba(248, 250, 252, 0) 100%);
+            padding: 100px 24px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .hero-content { max-width: 750px; margin: 0 auto; }
+        .hero h1 { font-size: 48px; margin-bottom: 24px; font-weight: 800; color: var(--clinical-dark); letter-spacing: -1px; line-height: 1.15; }
+        .hero p { font-size: 18px; margin-bottom: 36px; color: var(--clinical-gray); font-weight: 400; }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--medical-blue), var(--medical-cyan));
+            color: white;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.3);
+            transition: var(--transition);
+            display: inline-block;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(2, 132, 199, 0.4);
+            opacity: 0.95;
+        }
+
+        .section-container {
+            max-width: 1300px;
+            margin: 100px auto;
+            padding: 0 24px;
+        }
+        .section-header { text-align: center; max-width: 650px; margin: 0 auto 60px auto; }
+        .section-title { color: var(--clinical-dark); font-size: 34px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
+        .section-subtitle { color: var(--clinical-gray); font-size: 16px; font-weight: 400; }
+
+        .anatomy-viewport {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            background: #ffffff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            min-height: 650px;
+        }
+        .anatomy-controls {
+            background: #fafafa;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            border-right: 1px solid var(--border-color);
+        }
+        .anatomy-controls h4 { color: var(--clinical-dark); margin-bottom: 15px; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        
+        .layer-btn {
+            background: #ffffff;
+            color: var(--clinical-gray);
+            padding: 14px 20px;
+            border-radius: 14px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14.5px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .layer-btn:hover {
+            border-color: var(--medical-blue);
+            color: var(--medical-blue);
+            background: #f0f9ff;
+        }
+        .layer-btn.active {
+            background: linear-gradient(135deg, var(--medical-blue), var(--medical-cyan));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.25);
+        }
+        
+        .anatomy-display {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #ffffff 0%, #f8fafc 100%);
+            padding: 40px;
+        }
+        .render-box {
+            max-width: 420px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .render-box svg {
+            width: 100%;
+            height: auto;
+            max-height: 550px;
+            filter: drop-shadow(0 20px 30px rgba(15, 23, 42, 0.08));
+        }
+        .anatomy-info-overlay {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 20px;
+            border-radius: 16px;
+            color: var(--clinical-dark);
+            border: 1px solid var(--border-color);
+            max-width: 280px;
+            box-shadow: var(--card-shadow);
+        }
+        .anatomy-info-overlay strong { font-size: 14px; color: var(--medical-blue); display: block; margin-bottom: 4px; }
+        .anatomy-info-overlay p { font-size: 12px; color: var(--clinical-gray); line-height: 1.5; }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .metric-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .metric-label { font-size: 13px; font-weight: 700; color: var(--clinical-gray); text-transform: uppercase; letter-spacing: 0.5px; }
+        .metric-value { font-size: 28px; font-weight: 800; color: var(--clinical-dark); }
+        .metric-status { font-size: 13px; font-weight: 600; color: #16a34a; display: flex; align-items: center; gap: 4px; }
+        .metric-status.warning { color: #dc2626; }
+
+        .clinical-tools-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .tool-panel {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: var(--card-shadow);
+        }
+        .tool-panel h3 { font-size: 20px; margin-bottom: 20px; font-weight: 700; letter-spacing: -0.3px; }
+        .symptom-selector { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .symptom-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .symptom-option:hover { background: #f8fafc; border-color: var(--medical-blue); }
+        .symptom-option input { width: 16px; height: 16px; accent-color: var(--medical-blue); }
+        .diagnosis-output {
+            background: var(--clinical-light);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--medical-blue);
+            font-size: 14px;
+            min-height: 80px;
+        }
+
+        .glossary-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 30px; justify-content: center; }
+        .letter-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--clinical-gray);
+            transition: var(--transition);
+        }
+        .letter-btn:hover, .letter-btn.active {
+            background: var(--clinical-dark);
+            color: white;
+            border-color: transparent;
+        }
+        .glossary-container { display: flex; flex-direction: column; gap: 16px; }
+        .glossary-item {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+        .glossary-term { font-weight: 700; font-size: 16px; color: var(--medical-blue); }
+        .glossary-def { font-size: 14px; color: var(--clinical-gray); }
+
+        .doc-search-box {
+            max-width: 550px;
+            margin: 0 auto 50px auto;
+            display: flex;
+            background: white;
+            border-radius: 100px;
+            padding: 6px 8px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+        .doc-search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 10px 20px;
+            font-size: 15px;
+            color: var(--clinical-dark);
+        }
+        .doc-search-box button {
+            background: var(--clinical-dark);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        .doc-search-box button:hover { background: var(--medical-blue); }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+        }
+        .doc-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            position: relative;
+        }
+        .doc-card:hover { 
+            transform: translateY(-4px); 
+            border-color: #bae6fd;
+            box-shadow: 0 20px 25px -5px rgba(2, 132, 199, 0.08);
+        }
+        .doc-tag {
+            display: inline-block;
+            background: #e0f2fe;
+            color: var(--medical-blue);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+        }
+        .doc-card h3 { font-size: 19px; margin-bottom: 12px; color: var(--clinical-dark); font-weight: 700; letter-spacing: -0.3px; }
+        .doc-card p { color: var(--clinical-gray); font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
+        .doc-card a { font-size: 14px; color: var(--medical-blue); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition); }
+        .doc-card a:hover { color: var(--clinical-dark); }
+
+        footer {
+            background-color: #ffffff;
+            border-top: 1px solid var(--border-color);
+            color: var(--clinical-gray);
+            padding: 60px 24px;
+            text-align: center;
+            font-size: 14px;
+        }
+        footer p { margin-bottom: 12px; }
+        .disclaimer-box { max-width: 800px; margin: 24px auto 0 auto; padding-top: 24px; border-top: 1px dashed var(--border-color); font-size: 12px; opacity: 0.75; }
+
+        @media (max-width: 900px) {
+            .anatomy-viewport { grid-template-columns: 1fr; min-height: auto; }
+            .anatomy-controls { border-right: none; border-bottom: 1px solid var(--border-color); padding: 30px 20px; }
+            .clinical-tools-layout { grid-template-columns: 1fr; }
+            .glossary-item { grid-template-columns: 1fr; gap: 8px; }
+            .hero h1 { font-size: 34px; }
+            .nav-container { flex-direction: column; gap: 20px; }
+            .nav-right { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="nav-container">
+            <div class="logo">
+                <span>⚕️</span> MedicianDigital
+            </div>
+            
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#home" id="nav-home">Home</a></li>
+                    <li><a href="#anatomy" id="nav-anatomy">Anatomy</a></li>
+                    <li><a href="#clinical-data" id="nav-metrics">Dashboard</a></li>
+                    <li><a href="#tools" id="nav-tools">Clinical Tools</a></li>
+                    <li><a href="#docs" id="nav-docs">Documentation</a></li>
+                </ul>
+
+                <div class="lang-dropdown">
+                    <button class="gear-btn" title="Change Language">⚙️</button>
+                    <div class="dropdown-content">
+                        <button onclick="setLanguage('en')">🇺🇸 English</button>
+                        <button onclick="setLanguage('pt')">🇧🇷 Português</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 id="hero-title">Advanced Medical Intelligence Portal</h1>
+            <p id="hero-desc">Explore professional human anatomy systems and deep-dive into clinical science research with absolute interactive precision.</p>
+            <a href="#anatomy" class="btn" id="hero-btn">Launch 3D Explorer</a>
+        </div>
+    </section>
+
+    <section class="section-container" id="anatomy">
+        <div class="section-header">
+            <h2 class="section-title" id="anatomy-title">Interactive Human Body</h2>
+            <p class="section-subtitle" id="anatomy-subtitle">Select anatomical layers to scan and examine organic structural models.</p>
+        </div>
+        
+        <div class="anatomy-viewport">
+            <div class="anatomy-controls">
+                <h4 id="ctrl-title">Anatomy Layers</h4>
+                <button class="layer-btn active" onclick="changeLayer('skeletal', this)">☠️ <span id="layer-sk">Skeletal System</span></button>
+                <button class="layer-btn" onclick="changeLayer('organs', this)">🫁 <span id="layer-or">Organs & Vital</span></button>
+                <button class="layer-btn" onclick="changeLayer('muscular', this)">💪 <span id="layer-mu">Muscular Structure</span></button>
+            </div>
+            
+            <div class="anatomy-display">
+                <div class="render-box" id="render-box">
+                    <svg id="anatomy-svg" viewBox="0 0 240 500" xmlns="http://www.w3.org/2000/svg"></svg>
+                </div>
+                <div class="anatomy-info-overlay">
+                    <strong id="overlay-status">Active Render</strong>
+                    <p id="overlay-desc">Showing hardware-accelerated viewport breakdown.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="clinical-data">
+        <div class="section-header">
+            <h2 class="section-title" id="dash-title">Clinical Metrics Dashboard</h2>
+            <p class="section-subtitle" id="dash-subtitle">Real-time vital analytics and processing telemetry parameters.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="metric-card">
+                <div class="metric-label" id="lbl-hr">Heart Rate</div>
+                <div class="metric-value">72 <span style="font-size: 16px; font-weight:500;">BPM</span></div>
+                <div class="metric-status" id="st-hr">Optimal</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label" id="lbl-bp">Blood Pressure</div>
+                <div class="metric-value">120/80 <span style="font-size: 16px; font-weight:500;">mmHg</span></div>
+                <div class="metric-status" id="st-bp">Normal</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label" id="lbl-ox">Oxygen Saturation</div>
+                <div class="metric-value">98%</div>
+                <div class="metric-status" id="st-ox">Stable</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label" id="lbl-temp">Core Temperature</div>
+                <div class="metric-value">36.7°C</div>
+                <div class="metric-status" id="st-temp">Normal</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="tools">
+        <div class="clinical-tools-layout">
+            <div class="tool-panel">
+                <h3 id="panel-symptoms-title">Symptom Checker</h3>
+                <div class="symptom-selector">
+                    <label class="symptom-option">
+                        <input type="checkbox" value="fever" onchange="evaluateSymptoms()">
+                        <span id="opt-fever">High Fever</span>
+                    </label>
+                    <label class="symptom-option">
+                        <input type="checkbox" value="cough" onchange="evaluateSymptoms()">
+                        <span id="opt-cough">Persistent Dry Cough</span>
+                    </label>
+                    <label class="symptom-option">
+                        <input type="checkbox" value="dyspnea" onchange="evaluateSymptoms()">
+                        <span id="opt-dyspnea">Shortness of Breath</span>
+                    </label>
+                </div>
+                <div class="diagnosis-output" id="symptom-result">Select symptoms above to generate immediate evaluation.</div>
+            </div>
+
+            <div class="tool-panel">
+                <h3 id="panel-glossary-title">Medical Glossary</h3>
+                <div class="glossary-filters" id="glossary-tabs">
+                    <button class="letter-btn active" onclick="filterGlossary('All', this)">All</button>
+                    <button class="letter-btn" onclick="filterGlossary('A', this)">A</button>
+                    <button class="letter-btn" onclick="filterGlossary('M', this)">M</button>
+                    <button class="letter-btn" onclick="filterGlossary('N', this)">N</button>
+                    <button class="letter-btn" onclick="filterGlossary('P', this)">P</button>
+                </div>
+                <div class="glossary-container" id="glossary-wrapper"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="docs">
+        <div class="section-header">
+            <h2 class="section-title" id="docs-title">Medical Documentation</h2>
+            <p class="section-subtitle" id="docs-subtitle">Search specialized papers, clinical terms, and medical manuals.</p>
+        </div>
+        
+        <div class="doc-search-box">
+            <input type="text" id="doc-search-input" placeholder="Search documentation... (e.g., Cardiology)">
+            <button onclick="searchDocs()" id="search-btn">Search</button>
+        </div>
+
+        <div class="docs-grid" id="docs-grid">
+            <div class="doc-card" data-category="Cardiology">
+                <span class="doc-tag">Cardiology</span>
+                <h3 class="doc-title-1">Advanced Myocardial Pathologies</h3>
+                <p class="doc-desc-1">Detailed documentation regarding chronic cardiovascular syndromes, structural defects and modern treatment standards.</p>
+                <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+            </div>
+            <div class="doc-card" data-category="Neurology">
+                <span class="doc-tag">Neurology</span>
+                <h3 class="doc-title-2">Neuroplasticity and Synaptic Mapping</h3>
+                <p class="doc-desc-2">A technical analysis of cortical mapping adjustments and synaptic networks under motor recovery variables.</p>
+                <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+            </div>
+            <div class="doc-card" data-category="Pharmacology">
+                <span class="doc-tag">Pharmacology</span>
+                <h3 class="doc-title-3">Pharmacokinetics Framework</h3>
+                <p class="doc-desc-3">Core clinical manuals examining dynamic compound absorption rates, distribution curves, and cell processing.</p>
+                <a href="#docs" class="doc-link">Read Full Manual &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 MedicianDigital - Open Medical Framework. All rights reserved.</p>
+        <div class="disclaimer-box">
+            <p id="footer-disclaimer">Disclaimer: System developed for interactive reference and education purposes only. Never bypass direct qualified medical consensus.</p>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                navHome: "Home", navAnatomy: "Anatomy", navMetrics: "Dashboard", navTools: "Clinical Tools", navDocs: "Documentation",
+                heroTitle: "Advanced Medical Intelligence Portal",
+                heroDesc: "Explore professional human anatomy systems and deep-dive into clinical science research with absolute interactive precision.",
+                heroBtn: "Launch 3D Explorer",
+                anatomyTitle: "Interactive Human Anatomy",
+                anatomySubtitle: "Select specialized operational systems to view high-fidelity biological mockups.",
+                ctrlTitle: "Anatomy Systems",
+                layerSk: "Skeletal System", layerOr: "Organs & Biologicals", layerMu: "Muscular Tissue",
+                overlayStatus: "Active Render System",
+                dashTitle: "Clinical Metrics Dashboard",
+                dashSubtitle: "Real-time vital analytics and processing telemetry parameters.",
+                lblHr: "Heart Rate", lblBp: "Blood Pressure", lblOx: "Oxygen Saturation", lblTemp: "Core Temperature",
+                stOpt: "Optimal", stNorm: "Normal", stStab: "Stable",
+                panelSymptomsTitle: "Symptom Checker",
+                optFever: "High Fever", optCough: "Persistent Dry Cough", optDyspnea: "Shortness of Breath",
+                symDefault: "Select symptoms above to generate immediate evaluation.",
+                symAlert: "Urgent: Shortness of breath detected. Professional consultation required.",
+                symMild: "Observation advised: Monitor vital constants for potential infection.",
+                panelGlossaryTitle: "Medical Glossary",
+                docsTitle: "Clinical Documentation",
+                docsSubtitle: "Search specialized clinical trial archives, academic metadata and diagnostic logs.",
+                searchPlaceholder: "Query clinical system databases...",
+                searchBtn: "Search",
+                footerDisc: "Disclaimer: System developed for interactive reference and education purposes only. Never bypass direct qualified medical consensus.",
+                doc1T: "Advanced Myocardial Pathologies", doc1D: "Detailed documentation regarding chronic cardiovascular syndromes, structural defects and modern treatment standards.",
+                doc2T: "Neuroplasticity and Synaptic Mapping", doc2D: "A technical analysis of cortical mapping adjustments and synaptic networks under motor recovery variables.",
+                doc3T: "Pharmacokinetics Framework", doc3D: "Core clinical manuals examining dynamic compound absorption rates, distribution curves, and cell processing.",
+                descSkeletal: "Visualizing full cranial structure, costal cage architectures, spinal alignment, and long-bone femoral extensions.",
+                descOrgans: "Inspecting cerebral structures, pulmonary gas exchange modules, dynamic cardiac ventricles, hepatic mass, and gastrointestinal tracts.",
+                descMuscular: "Displaying critical deltoid fiber bands, pectoralis major muscle walls, rectus abdominis grid arrays, and quad tendon frameworks."
+            },
+            pt: {
+                navHome: "Início", navAnatomy: "Anatomia", navMetrics: "Painel", navTools: "Ferramentas", navDocs: "Documentação",
+                heroTitle: "Portal de Inteligência Médica Avançada",
+                heroDesc: "Explore sistemas profissionais de anatomia humana e aprofunde-se em pesquisas clínicas estruturadas com absoluta precisão interativa.",
+                heroBtn: "Iniciar Explorador 3D",
+                anatomyTitle: "Anatomia Humana Interativa",
+                anatomySubtitle: "Selecione sistemas operacionais especializados para inspecionar maquetes biológicas de alta fidelidade.",
+                ctrlTitle: "Sistemas Anatômicos",
+                layerSk: "Sistema Esquelético", layerOr: "Órgãos e Biológicos", layerMu: "Tecido Muscular",
+                overlayStatus: "Sistema de Renderização Ativo",
+                dashTitle: "Painel de Métricas Clínicas",
+                dashSubtitle: "Análise de sinais vitais em tempo real e parâmetros de telemetria.",
+                lblHr: "Frequência Cardíaca", lblBp: "Pressão Arterial", lblOx: "Saturação de Oxigênio", lblTemp: "Temperatura Corpórea",
+                stOpt: "Otimizado", stNorm: "Normal", stStab: "Estável",
+                panelSymptomsTitle: "Verificador de Sintomas",
+                optFever: "Febre Alta", optCough: "Tosse Seca Persistente", optDyspnea: "Falta de Ar / Dispneia",
+                symDefault: "Selecione os sintomas acima para gerar uma avaliação imediata.",
+                symAlert: "Urgente: Falta de ar detectada. É recomendada uma avaliação profissional imediata.",
+                symMild: "Aviso: Monitore as constantes vitais para possíveis infecções respiratórias.",
+                panelGlossaryTitle: "Glossário Médico",
+                docsTitle: "Documentação Clínica",
+                docsSubtitle: "Busque em arquivos especializados de ensaios clínicos, metadados acadêmicos e registros de diagnósticos.",
+                searchPlaceholder: "Pesquisar bases de dados clínicas...",
+                searchBtn: "Buscar",
+                footerDisc: "Aviso: Sistema desenvolvido estritamente para fins de referência interativa e educacional. Nunca ignore o consenso médico qualificado por vias digitais.",
+                doc1T: "Patologias Miocárdicas Avançadas", doc1D: "Documentação detalhada sobre síndromes cardiovasculares crônicas, defeitos estruturais e diretrizes modernas de conduta terapêutica.",
+                doc2T: "Neuroplasticidade e Mapeamento Sináptico", doc2D: "Análise técnica de alterações no mapeamento cortical e arranjos de redes sinápticas sob variáveis de reabilitação motora.",
+                doc3T: "Framework de Farmacocinética", doc3D: "Manuais clínicos essenciais avaliando taxas dinâmicas de absorção de compostos, curvas de distribuição biológica e processamento celular.",
+                descSkeletal: "Visualizando a estrutura craniana completa, arquitetura da caixa costal, alinhamento espinhal e extensões femorais de ossos longos.",
+                descOrgans: "Inspecionando estruturas cerebrais, módulos de troca gasosa pulmonar, ventrículos cardíacos dinâmicos, massa hepática e trato gastrointestinal.",
+                descMuscular: "Exibindo faixas de fibras deltoides críticas, paredes do músculo peitoral maior, matrizes do resto abdominal e estruturas de tendões do quadríceps."
+            }
+        };
+
+        const glossaryData = [
+            { letter: "A", termEn: "Anatomy", termPt: "Anatomia", defEn: "The structural makeup of organism biological frameworks.", defPt: "A constituição estrutural de arranjos biológicos de organismos." },
+            { letter: "M", termEn: "Myocardium", termPt: "Miocárdio", defEn: "The specialized muscular tissue structure of the heart heartwall.", defPt: "O tecido muscular especializado da parede cardíaca." },
+            { letter: "N", termEn: "Neurology", termPt: "Neurologia", defEn: "Medical branch treating nervous system clinical conditions.", defPt: "Ramo médico encarregado das condições clínicas do sistema nervoso." },
+            { letter: "P", termEn: "Pharmacology", termPt: "Farmacologia", defEn: "The biochemical evaluation of compound interactions on cells.", defPt: "A avaliação bioquímica das interações de compostos nas células." }
+        ];
+
+        const models = {
+            skeletal: `
+                <path d="M120,40 C100,40 95,55 95,70 C95,85 105,95 120,95 C135,95 145,85 145,70 C145,55 140,40 120,40 Z" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"/>
+                <path d="M108,72 Q112,68 114,74 M126,74 Q128,68 132,72" stroke="#94a3b8" stroke-width="2" fill="none"/>
+                <path d="M115,84 Q120,80 125,84" stroke="#94a3b8" stroke-width="1.5" fill="none"/>
+                <rect x="116" y="95" width="8" height="25" rx="2" fill="#cbd5e1"/>
+                <line x1="120" y1="120" x2="120" y2="280" stroke="#cbd5e1" stroke-width="6" stroke-dasharray="4,2"/>
+                <path d="M70,123 Q120,130 170,123" stroke="#e2e8f0" stroke-width="4" fill="none"/>
+                <rect x="116" y="125" width="8" height="90" rx="3" fill="#e2e8f0"/>
+                <path d="M85,135 Q120,140 155,135 M80,150 Q120,157 160,150 M78,165 Q120,174 162,165 M78,180 Q120,190 162,180 M82,195 Q120,205 158,195 M88,210 Q120,218 152,210" stroke="#e2e8f0" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M90,260 C90,240 100,245 120,250 C140,245 150,240 150,260 C150,285 135,290 120,290 C105,290 90,285 90,260 Z" fill="#cbd5e1" stroke="#94a3b8" stroke-width="1.5"/>
+                <circle cx="104" cy="268" r="7" fill="#f8fafc"/>
+                <circle cx="136" cy="268" r="7" fill="#f8fafc"/>
+                <path d="M68,125 Q52,180 50,200" stroke="#e2e8f0" stroke-width="4.5" stroke-linecap="round"/>
+                <path d="M50,205 Q45,255 42,270" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M172,125 Q188,180 190,200" stroke="#e2e8f0" stroke-width="4.5" stroke-linecap="round"/>
+                <path d="M190,205 Q195,255 198,270" stroke="#cbd5e1" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M102,285 Q95,350 92,390" stroke="#e2e8f0" stroke-width="7" stroke-linecap="round"/>
+                <circle cx="92" cy="396" r="5" fill="#cbd5e1"/>
+                <path d="M92,402 Q92,460 90,480" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+                <path d="M138,285 Q145,350 148,390" stroke="#e2e8f0" stroke-width="7" stroke-linecap="round"/>
+                <circle cx="148" cy="396" r="5" fill="#cbd5e1"/>
+                <path d="M148,402 Q148,460 150,480" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round"/>
+            `,
+            organs: `
+                <path d="M100,68 C90,64 92,46 120,44 C148,46 150,64 140,68 C145,76 135,88 120,86 C105,88 95,76 100,68 Z" fill="#fda4af" stroke="#f43f5e" stroke-width="1.5"/>
+                <path d="M112,45 Q120,55 114,68 M126,45 Q120,55 126,68 M102,62 Q120,60 138,62 M108,74 Q120,76 132,74" stroke="#f43f5e" stroke-width="1" fill="none"/>
+                <rect x="117" y="86" width="6" height="35" fill="#93c5fd" opacity="0.8"/>
+                <path d="M116,125 C105,120 82,130 82,165 C82,200 100,205 114,195 Z" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"/>
+                <path d="M124,125 C135,120 158,130 158,165 C158,200 140,205 126,195 Z" fill="#fca5a5" stroke="#ef4444" stroke-width="1.5"/>
+                <path d="M115,155 C110,145 130,135 132,150 C135,165 120,175 118,178 C115,175 108,165 115,155 Z" fill="#dc2626" stroke="#991b1b" stroke-width="1.5"/>
+                <path d="M122,146 Q124,136 130,140" stroke="#3b82f6" stroke-width="2.5" fill="none"/>
+                <path d="M88,206 L120,204 Q134,206 130,222 L94,226 Z" fill="#b91c1c" opacity="0.9"/>
+                <path d="M122,212 Q144,210 140,230 Q130,245 116,235 Q112,222 122,212 Z" fill="#f87171"/>
+                <path d="M96,242 H144 Q148,265 140,285 Q100,290 96,280 Z" fill="#fcd34d" stroke="#d97706" stroke-width="1.5" opacity="0.85"/>
+                <path d="M104,248 Q120,254 136,248 M102,258 Q120,266 138,258 M102,268 Q120,274 138,268 M106,278 Q120,282 134,278" stroke="#d97706" stroke-width="2" fill="none"/>
+            `,
+            muscular: `
+                <path d="M106,95 L116,125 L124,125 L134,95 Z" fill="#991b1b" opacity="0.8"/>
+                <path d="M68,125 C62,135 60,155 72,165 C76,150 78,135 68,125 Z" fill="#b91c1c"/>
+                <path d="M172,125 C178,135 180,155 168,165 C164,150 162,135 172,125 Z" fill="#b91c1c"/>
+                <path d="M76,130 Q120,140 120,175 Q90,175 74,160 Z" fill="#991b1b" stroke="#7f1d1d" stroke-width="0.5"/>
+                <path d="M164,130 Q120,140 120,175 Q150,175 166,160 Z" fill="#991b1b" stroke="#7f1d1d" stroke-width="0.5"/>
+                <rect x="98" y="182" width="44" height="65" rx="4" fill="#991b1b"/>
+                <rect x="102" y="186" width="16" height="12" rx="2" fill="#881337"/>
+                <rect x="122" y="186" width="16" height="12" rx="2" fill="#881337"/>
+                <rect x="102" y="202" width="16" height="12" rx="2" fill="#881337"/>
+                <rect x="122" y="202" width="16" height="12" rx="2" fill="#881337"/>
+                <rect x="102" y="218" width="16" height="12" rx="2" fill="#881337"/>
+                <rect x="122" y="218" width="16" height="12" rx="2" fill="#881337"/>
+                <path d="M72,166 Q60,200 56,215 Q68,200 74,175 Z" fill="#b91c1c"/>
+                <path d="M168,166 Q180,200 184,215 Q172,200 166,175 Z" fill="#b91c1c"/>
+                <path d="M94,290 C84,330 84,370 94,395 C102,370 106,330 104,290 Z" fill="#991b1b"/>
+                <path d="M105,290 C108,330 110,370 101,395 C114,370 118,330 115,290 Z" fill="#b91c1c"/>
+                <path d="M146,290 C156,330 156,370 146,395 C138,370 134,330 136,290 Z" fill="#991b1b"/>
+                <path d="M135,290 C132,330 130,370 139,395 C126,370 122,330 125,290 Z" fill="#b91c1c"/>
+            `
+        };
+
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const data = translations[lang];
+            
+            document.getElementById('nav-home').innerText = data.navHome;
+            document.getElementById('nav-anatomy').innerText = data.navAnatomy;
+            document.getElementById('nav-metrics').innerText = data.navMetrics;
+            document.getElementById('nav-tools').innerText = data.navTools;
+            document.getElementById('nav-docs').innerText = data.navDocs;
+            
+            document.getElementById('hero-title').innerText = data.heroTitle;
+            document.getElementById('hero-desc').innerText = data.heroDesc;
+            document.getElementById('hero-btn').innerText = data.heroBtn;
+            
+            document.getElementById('anatomy-title').innerText = data.anatomyTitle;
+            document.getElementById('anatomy-subtitle').innerText = data.anatomySubtitle;
+            document.getElementById('ctrl-title').innerText = data.ctrlTitle;
+            document.getElementById('layer-sk').innerText = data.layerSk;
+            document.getElementById('layer-or').innerText = data.layerOr;
+            document.getElementById('layer-mu').innerText = data.layerMu;
+            document.getElementById('overlay-status').innerText = data.overlayStatus;
+            
+            document.getElementById('dash-title').innerText = data.dashTitle;
+            document.getElementById('dash-subtitle').innerText = data.dashSubtitle;
+            document.getElementById('lbl-hr').innerText = data.lblHr;
+            document.getElementById('lbl-bp').innerText = data.lblBp;
+            document.getElementById('lbl-ox').innerText = data.lblOx;
+            document.getElementById('lbl-temp').innerText = data.lblTemp;
+            document.getElementById('st-hr').innerText = data.stOpt;
+            document.getElementById('st-bp').innerText = data.stNorm;
+            document.getElementById('st-ox').innerText = data.stStab;
+            document.getElementById('st-temp').innerText = data.stNorm;
+
+            document.getElementById('panel-symptoms-title').innerText = data.panelSymptomsTitle;
+            document.getElementById('opt-fever').innerText = data.optFever;
+            document.getElementById('opt-cough').innerText = data.optCough;
+            document.getElementById('opt-dyspnea').innerText = data.optDyspnea;
+
+            document.getElementById('panel-glossary-title').innerText = data.panelGlossaryTitle;
+
+            document.getElementById('docs-title').innerText = data.docsTitle;
+            document.getElementById('docs-subtitle').innerText = data.docsSubtitle;
+            document.getElementById('doc-search-input').placeholder = data.searchPlaceholder;
+            document.getElementById('search-btn').innerText = data.searchBtn;
+            document.getElementById('footer-disclaimer').innerText = data.footerDisc;
+            
+            document.querySelector('.doc-title-1').innerText = data.doc1T;
+            document.querySelector('.doc-desc-1').innerText = data.doc1D;
+            document.querySelector('.doc-title-2').innerText = data.doc2T;
+            document.querySelector('.doc-desc-2').innerText = data.doc2D;
+            document.querySelector('.doc-title-3').innerText = data.doc3T;
+            document.querySelector('.doc-desc-3').innerText = data.doc3D;
+
+            const activeBtn = document.querySelector('.layer-btn.active');
+            if(activeBtn) activeBtn.click();
+            
+            evaluateSymptoms();
+            const activeLetterBtn = document.querySelector('.letter-btn.active');
+            if(activeLetterBtn) activeLetterBtn.click();
+        }
+
+        function changeLayer(layerType, element) {
+            document.querySelectorAll('.layer-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            const svgContainer = document.getElementById('anatomy-svg');
+            const overlayDesc = document.getElementById('overlay-desc');
+            
+            svgContainer.innerHTML = models[layerType];
+
+            if(layerType === 'skeletal') {
+                overlayDesc.innerText = translations[currentLang].descSkeletal;
+            } else if(layerType === 'organs') {
+                overlayDesc.innerText = translations[currentLang].descOrgans;
+            } else if(layerType === 'muscular') {
+                overlayDesc.innerText = translations[currentLang].descMuscular;
+            }
+        }
+
+        function evaluateSymptoms() {
+            const checkboxes = document.querySelectorAll('.symptom-selector input:checked');
+            const output = document.getElementById('symptom-result');
+            const selected = Array.from(checkboxes).map(cb => cb.value);
+
+            if (selected.length === 0) {
+                output.innerText = translations[currentLang].symDefault;
+                output.style.borderColor = "var(--medical-blue)";
+                return;
+            }
+
+            if (selected.includes('dyspnea')) {
+                output.innerText = translations[currentLang].symAlert;
+                output.style.borderColor = "#dc2626";
+            } else {
+                output.innerText = translations[currentLang].symMild;
+                output.style.borderColor = "#d97706";
+            }
+        }
+
+        function filterGlossary(letter, element) {
+            document.querySelectorAll('.letter-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            const wrapper = document.getElementById('glossary-wrapper');
+            wrapper.innerHTML = '';
+
+            const filtered = glossaryData.filter(item => letter === 'All' || item.letter === letter);
+
+            filtered.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'glossary-item';
+                
+                const term = currentLang === 'en' ? item.termEn : item.termPt;
+                const def = currentLang === 'en' ? item.defEn : item.defPt;
+
+                row.innerHTML = `
+                    <div class="glossary-term">${term}</div>
+                    <div class="glossary-def">${def}</div>
+                `;
+                wrapper.appendChild(row);
+            });
+        }
+
+        function searchDocs() {
+            const query = document.getElementById('doc-search-input').value.toLowerCase();
+            const cards = document.querySelectorAll('.doc-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('h3').innerText.toLowerCase();
+                const desc = card.querySelector('p').innerText.toLowerCase();
+                const category = card.getAttribute('data-category').toLowerCase();
+
+                if (title.includes(query) || desc.includes(query) || category.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('doc-search-input').addEventListener('keyup', searchDocs);
+        
+        window.onload = () => {
+            changeLayer('skeletal', document.querySelector('.layer-btn.active'));
+            filterGlossary('All', document.querySelector('.letter-btn.active'));
+        };
+    </script>
+</body>
+</html>
